@@ -22,7 +22,7 @@ from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 # 1. Load dataset
 df = pd.read_csv('spam.csv', encoding='latin-1')[['v1', 'v2']]
 df.columns = ['label', 'message']
-df['label'] = df['label'].map({'ham': 0, 'spam': 1})
+df['label'] = df['label'].map({'ham': 'ham', 'spam': 'spam'})
 
 # 2. Share data
 # x is for entry data and y is for right answers 0 or 1
@@ -60,24 +60,42 @@ model.fit(X_train_vec, y_train)
 # prediction, this is where model gets messages that weren't in training and gives for everyone prediction
 # y_pred are predictions and y_test are real values from dataset
 y_pred = model.predict(X_test_vec)
+# accuracy is calculated from all right predictions divided by all predictions
 print(f"Tačnost: {accuracy_score(y_test, y_pred):.2%}")
 print(classification_report(y_test, y_pred))
 
 # 6. Example of prediction
+# this is for test two new messages
 test_sms = ["Win a free iPhone!", "Hey, are we still on for lunch?"]
+# again convert to numeric vectors
 test_vec = vectorizer.transform(test_sms)
+# now model for every message gives estimation
 predictions = model.predict(test_vec)
+# just print results with prediction, 1 or 0
 for sms, pred in zip(test_sms, predictions):
     print(f"'{sms}' → {'SPAM' if pred == 1 else 'HAM'}")
 
 # 7. Confusion matrix graph
+# makes new graph with cm var
 cm = confusion_matrix(y_test, y_pred)
 
+# use spam instead of 1 and ham instead of 0
 display = ConfusionMatrixDisplay(
     confusion_matrix=cm,
     display_labels=["Ham", "Spam"]
 )
 
+# this 'prints' graph
 display.plot(cmap="Blues")
 plt.title("Matrica konfuzije - klasifikacija SMS poruka")
 plt.show()
+
+
+# precision is how really is accurate model
+# recall is from all spam messages how many model did find
+# f1-score (precision and recall)
+# support is how many real messages from that class does exist (spam or ham)
+
+# in dataset real ham messages are 965 and spam are 113 + 37 = 150
+
+
