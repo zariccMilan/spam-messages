@@ -1,11 +1,22 @@
+# import for csv files
 import pandas as pd
+
+# splits data for learning and testing
 from sklearn.model_selection import train_test_split
+
+# converts sms text to numbers
 from sklearn.feature_extraction.text import TfidfVectorizer
+
+# model Multinomial Naive Bayes
 from sklearn.naive_bayes import MultinomialNB
+
+# accuracy_score counts for whole accuracy, classification_report counts precision, recall and F1 score
 from sklearn.metrics import accuracy_score, classification_report
 
 # imports for graph
 import matplotlib.pyplot as plt
+
+# confusion_matrix makes table with right and wrong predictions, ConfusionMatrixDisplay shows that table like graph
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 
 # 1. Load dataset
